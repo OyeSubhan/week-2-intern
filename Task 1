@@ -1,0 +1,43 @@
+#include <iostream>
+using namespace std;
+
+// Function to calculate the number of carers based on the number of senior citizens
+int calculateCarers(int seniorCitizens) {
+    if (seniorCitizens > 24) {
+        return 3; // More than 24 seniors requires an additional carer
+    } else {
+        return 2; // Base case of 2 carers
+    }
+}
+
+// Function to calculate the total cost and cost per person
+void calculateCost(int seniorCitizens, double costPerSenior) {
+    int carers = calculateCarers(seniorCitizens);
+    double totalCost = seniorCitizens * costPerSenior;
+    double costPerPerson = totalCost / seniorCitizens;
+
+    cout << "Total cost for the outing: $" << totalCost << std::endl;
+    cout << "Cost per senior citizen: $" << costPerPerson << std::endl;
+    cout << "Number of carers: " << carers << std::endl;
+}
+
+int main() {
+    int seniorCitizens;
+    double costPerSenior;
+
+    // Prompt the user for the number of senior citizens and cost per senior
+cout << "Enter the number of senior citizens attending the outing: ";
+    cin >> seniorCitizens;
+    cout << "Enter the cost per senior citizen ($): ";
+    cin >> costPerSenior;
+
+    // Validate the number of senior citizens
+    if (seniorCitizens < 10 || seniorCitizens > 36) {
+        std::cout << "The number of senior citizens must be between 10 and 36." << std::endl;
+    } else {
+        // Calculate and display the total cost and cost per person
+        calculateCost(seniorCitizens, costPerSenior);
+    }
+
+    return 0;
+}
