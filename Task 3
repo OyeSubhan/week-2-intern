@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+#include <vector>
+#include <string>
+
+struct Person {
+    string name;
+    double payment;
+};
+
+// Assume a global coach capacity for simplicity
+const int COACH_CAPACITY = 50;
+
+// Function to calculate the number of carers based on the number of senior citizens
+int calculateCarers(int seniorCitizens) {
+    if (seniorCitizens > 24) return 3;
+    return 2;
+}
+
+// Function to add a person to the outing list
+void addPerson(std::vector<Person>& outingList, const std::string& name, double payment) {
+    outingList.push_back(Person{name, payment});
+}
+
+// Function to display outing details
+void displayOutingDetails(const std::vector<Person>& outingList) {
+    double totalCollected = 0;
+    cout << "\nList of people on the outing:\n";
+    for (const auto& person : outingList) {
+        std::cout << person.name << " - Paid: $" << person.payment << std::endl;
+        totalCollected += person.payment;
+    }
+    cout << "Total amount collected: $" << totalCollected << std::endl;
+}
+
+int main() {
+    int seniorCitizens;
+    double costPerSenior;
+    std::vector<Person> outingList;
+
+    cout << "Enter the number of senior citizens attending: ";
+    cin >> seniorCitizens;
+    cout << "Enter the cost per senior citizen: ";
+    cin >> costPerSenior;
+
+    // Calculate the number of carers and add them to the list
+    int carers = calculateCarers(seniorCitizens);
+    for (int i = 1; i <= carers; ++i) {
+        addPerson(outingList, "Carer " + std::to_string(i), 0.0);
+    }
+
+    // Add senior citizens to the list
+    for (int i = 1; i <= seniorCitizens; ++i) {
+        addPerson(outingList, "Senior Citizen " + std::to_string(i), costPerSenior);
+    }
+
+    // Check for extra spaces and add extra people if any
+    int totalPeople = seniorCitizens + carers;
+    int extraSpaces = COACH_CAPACITY - totalPeople;
+    for (int i = 1; i <= extraSpaces && std::cin; ++i) {
+        string extraPersonName;
+        cout << "Enter name for extra person " << i << " (or press enter to finish): ";
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Flush the newline character
+        getline(std::cin, extraPersonName);
+        if (extraPersonName.empty()) break; // Exit loop if no name is entered
+        addPerson(outingList, extraPersonName, costPerSenior);
+    }
+
+    displayOutingDetails(outingList);
+
+    return 0;
+}
