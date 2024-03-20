@@ -1,0 +1,52 @@
+#include <iostream>
+using namespace std;
+#include <vector>
+#include <string>
+
+struct Person {
+    string name;
+    double paid;
+};
+
+// Function to display the list of people and total money collected
+void displayOutingDetails(const std::vector<Person>& people) {
+    double totalCollected = 0.0;
+    cout << "\nList of people on the outing:\n";
+    for (const auto& person : people) {
+        cout << person.name << " paid: $" << person.paid << std::endl;
+        totalCollected += person.paid;
+    }
+    cout << "Total amount collected: $" << totalCollected << std::endl;
+}
+
+int main() {
+    int seniorCitizens, extraPeople, totalCapacity = 40; // Example capacity
+    double costPerSenior;
+    vector<Person> people;
+
+    // Example input for demonstration
+    seniorCitizens = 12; // Assume 12 senior citizens for simplicity
+    costPerSenior = 20.0; // Example cost per senior
+
+    // Add senior citizens to the list
+    for (int i = 1; i <= seniorCitizens; ++i) {
+        people.push_back({"Senior Citizen " + std::to_string(i), costPerSenior});
+    }
+
+    // Determine the number of carers based on senior citizens
+    int carers = (seniorCitizens > 24) ? 3 : 2;
+    for (int i = 1; i <= carers; ++i) {
+        people.push_back({"Carer " + std::to_string(i), 0.0});
+    }
+
+    // Calculate extra people based on the remaining capacity
+    extraPeople = totalCapacity - (seniorCitizens + carers);
+    for (int i = 1; i <= extraPeople; ++i) {
+        people.push_back({"Extra Person " + std::to_string(i), costPerSenior});
+    }
+
+    // Display outing details
+    displayOutingDetails(people);
+
+    return 0;
+}
